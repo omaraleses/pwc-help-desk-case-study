@@ -33,6 +33,8 @@ export const tickets = pgTable("tickets", {
     .defaultNow()
     .$onUpdate(() => new Date())
     .notNull(),
+
+  deletedAt: timestamp("deleted_at", { withTimezone: true }),
 })
 
 export const ticketsRelations = relations(tickets, ({ one, many }) => ({

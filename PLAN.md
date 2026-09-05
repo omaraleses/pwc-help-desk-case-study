@@ -79,14 +79,14 @@ Codes: BAD_REQUEST 400, UNAUTHORIZED 401, FORBIDDEN 403, NOT_FOUND 404, CONFLICT
 | GET | /api/tickets/summary | role scoped | open/closed counts for dashboard cards |
 | POST | /api/tickets | any active user | returns uuid + ticket_no |
 | GET | /api/tickets/:id | requester, moderator, admin | 403 on cross-access (IDOR) |
-| PATCH | /api/tickets/:id | field dependent | status transition rules, assign, priority. Per-field authorization: users can only touch own resolved ticket to close it |
+| PUT | /api/tickets/:id | field dependent | status transition rules, assign, priority. Per-field authorization: users can only touch own resolved ticket to close it |
 | DELETE | /api/tickets/:id | admin | |
 | GET | /api/tickets/:id/comments | same as ticket detail | |
 | POST | /api/tickets/:id/comments | requester, moderator, admin | |
 | GET | /api/categories | any authenticated | |
-| POST / PATCH / DELETE | /api/categories/:id | admin | |
+| POST / PUT / DELETE | /api/categories/:id | admin | |
 | GET | /api/users | admin | paginated, q filter |
-| PATCH | /api/users/:id | admin | `{ isActive }` or `{ role }` |
+| PUT | /api/users/:id | admin | `{ isActive }` or `{ role }` |
 
 Pagination envelope:
 
@@ -145,7 +145,7 @@ State management rationale (goes in README): TanStack Query for all server state
 ## IDOR checklist
 
 - Every /api/tickets/:id and comments route resolves the ticket and checks requesterId against session before responding. Ownership check is code, not a declarative permission.
-- PATCH authorizes per field, not per request: a user passing `{ assigneeId }` gets 403 even on their own ticket.
+- PUT authorizes per field, not per request: a user passing `{ assigneeId }` gets 403 even on their own ticket.
 - Route params are numeric ids (serial pk). Enumeration alone is harmless because every access is authorized, do not rely on obscurity.
 - Users list and admin mutations verify role from the server session, never from request body.
 
@@ -251,21 +251,22 @@ Passwords with `@` break connection strings unless percent-encoded, so the local
 - [ ] Navbar, centered role badge, logout (replace the placeholder header)
 - [x] Role-aware layouts redirecting by session ((protected)/layout.tsx + per-page role guards)
 - [x] proxy.ts for cookie-presence redirects only
-- [ ] shadcn components: table, dialog, select, dropdown-menu, textarea, skeleton, tabs, pagination (button, input, label, card, badge, sonner installed)
+- [x] shadcn components: table, dialog, select, dropdown-menu, 
+- [X] shadcn textarea, skeleton, tabs, pagination (button, input, label, card, badge, sonner installed)
 
 ## Phase 8, Tickets API
 
-- [ ] GET /api/tickets with SQL pagination, filters, sort, role scoping
-- [ ] GET /api/tickets/summary
-- [ ] POST, GET :id, PATCH :id (per-field authz + transition rules), DELETE :id
-- [ ] Comments GET + POST
-- [ ] lib/email.ts mock, called on create and resolve
-- [ ] Manual IDOR pass: user session hitting other tickets expects 403 on detail, patch, comments
+- [X] GET /api/tickets with SQL pagination, filters, sort, role scoping
+- [X] GET /api/tickets/summary
+- [X] POST, GET :id, PUT :id (per-field authz + transition rules), DELETE :id => (sets it as inactive instead of deleting it from the database admin will be able to see deleted items)
+- [X] Comments GET + POST
+- [X] lib/email.ts mock, called on create and resolve
+- [X] Manual IDOR pass: user session hitting other tickets expects 403 on detail, put, comments
 
 ## Phase 9, Admin API
 
 - [ ] Categories CRUD
-- [ ] Users list + PATCH (isActive, role)
+- [ ] Users list + PUT (isActive, role)
 
 ## Phase 10, Dashboards
 
