@@ -1,8 +1,9 @@
-import { Geist, Geist_Mono, Nunito_Sans, Noto_Sans } from "next/font/google"
+import { Geist_Mono, Noto_Sans, Nunito_Sans } from "next/font/google";
 
-import "./globals.css"
-import { ThemeProvider } from "@/components/theme-provider"
+import { ThemeProvider } from "@/components/theme-provider";
+import { Providers } from "@/components/providers";
 import { cn } from "@/lib/utils";
+import "./globals.css";
 
 const notoSansHeading = Noto_Sans({subsets:['latin'],variable:'--font-heading'});
 
@@ -25,7 +26,9 @@ export default function RootLayout({
       className={cn("antialiased", fontMono.variable, "font-sans", nunitoSans.variable, notoSansHeading.variable)}
     >
       <body>
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <Providers>{children}</Providers>
+        </ThemeProvider>
       </body>
     </html>
   )
