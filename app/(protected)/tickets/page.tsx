@@ -1,9 +1,7 @@
 import { headers } from "next/headers"
-import { notFound, redirect } from "next/navigation"
+import { redirect } from "next/navigation"
 
-import { AdminTicketsPage } from "@/components/tickets/admin-tickets-page"
-import { ClientTicketsPage } from "@/components/tickets/client-tickets-page"
-import { ModeratorTicketsPage } from "@/components/tickets/moderator-tickets-page"
+import { TicketsTable } from "@/app/(protected)/tickets/components/table"
 import { auth } from "@/lib/auth"
 import type { Role } from "@/lib/types"
 
@@ -12,15 +10,7 @@ export default async function TicketsPage() {
   if (!session) redirect("/login")
 
   const role = (session.user.role ?? "user") as Role
+  const canManage = role === "admin" || role === "moderator"
 
-  switch (role) {
-    case "admin":
-      return <AdminTicketsPage />
-    case "moderator":
-      return <ModeratorTicketsPage />
-    case "user":
-      return <ClientTicketsPage />
-    default:
-      notFound()
-  }
+  return <TicketsTable canManage={canManage} canDelete={role === "admin"} />
 }

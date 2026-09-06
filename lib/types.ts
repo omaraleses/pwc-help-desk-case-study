@@ -30,6 +30,29 @@ export const ROLE_LABELS: Record<Role, string> = {
   admin: "Admin",
 }
 
+export const STATUS_LABELS: Record<Status, string> = {
+  open: "Open",
+  in_progress: "In progress",
+  resolved: "Resolved",
+  closed: "Closed",
+}
+
+export const PRIORITY_LABELS: Record<Priority, string> = {
+  low: "Low",
+  medium: "Medium",
+  high: "High",
+  urgent: "Urgent",
+}
+
+export const SORT_LABELS: Record<string, string> = {
+  createdAt_desc: "Newest first",
+  createdAt_asc: "Oldest first",
+  updatedAt_desc: "Recently updated",
+  updatedAt_asc: "Least recently updated",
+  priority_desc: "Priority high to low",
+  priority_asc: "Priority low to high",
+}
+
 export function formatTicketNo(id: number): string {
   return `#${String(id).padStart(5, "0")}`
 }

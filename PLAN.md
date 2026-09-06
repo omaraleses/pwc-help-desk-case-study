@@ -265,8 +265,8 @@ Passwords with `@` break connection strings unless percent-encoded, so the local
 
 ## Phase 9, Admin API
 
-- [ ] Categories CRUD
-- [ ] Users list + PUT (isActive, role)
+- [X] Categories CRUD
+- [X] Users list + PUT (isActive, role)
 
 ## Phase 10, Dashboards
 
@@ -286,8 +286,8 @@ Passwords with `@` break connection strings unless percent-encoded, so the local
 - [ ] Fresh clone test: compose up, install, push, seed, login as each role
 - [ ] Walk the grading criteria one by one
 
-## Out of scope
+## Out of scope (FLEX)
 
-- OpenAI similarity agent (Priya account is seeded for it, no integration)
+- DeepSeek similarity agent using openai sdk (Priya account is seeded for it, no integration)
 - Real email delivery, daily admin stats email
 - Ticket reopening, file attachments

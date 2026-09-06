@@ -1,8 +1,8 @@
-import { eq } from "drizzle-orm"
 import { db } from "@/db"
-import { tickets, type SelectTicket } from "@/lib/db/schema"
 import { badRequest, forbidden, notFound } from "@/lib/api-error"
-import type { Role } from "@/lib/types"
+import { tickets, type SelectTicket } from "@/lib/db/schema"
+import { type Role } from "@/lib/types"
+import { eq } from "drizzle-orm"
 
 export async function loadTicket(id: number) {
   const ticket = await db.query.tickets.findFirst({
@@ -24,7 +24,7 @@ export async function loadTicket(id: number) {
 export function assertVisibleTicket(
   ticket: SelectTicket,
   session: { user: { id: string } },
-  role: Role,
+  role: Role
 ) {
   if (ticket.deletedAt && role !== "admin") {
     throw notFound("Ticket not found")
