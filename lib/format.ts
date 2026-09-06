@@ -14,3 +14,8 @@ export function formatDateTime(value: string | Date): string {
     minute: "2-digit",
   })
 }
+
+export function formatCount(count: number, noun: string): string {
+  if (count === 1) return `1 ${noun}`
+  return `${count} ${noun}s`
+}
