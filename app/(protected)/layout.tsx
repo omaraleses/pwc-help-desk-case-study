@@ -5,6 +5,7 @@ import { redirect } from "next/navigation"
 import { NavLinks } from "@/app/(protected)/nav-links"
 import { SignOutButton } from "@/components/auth/sign-out-button"
 import { BfcacheReload } from "@/components/bfcache-reload"
+import { ThemeToggle } from "@/components/theme-toggle"
 import { Badge } from "@/components/ui/badge"
 import { auth } from "@/lib/auth"
 import { ROLE_LABELS, type Role } from "@/lib/types"
@@ -43,6 +44,7 @@ export default async function ProtectedLayout({
             <span className="text-muted-foreground hidden text-sm sm:inline">
               {session.user.name}
             </span>
+            <ThemeToggle />
             <SignOutButton />
           </div>
         </div>
