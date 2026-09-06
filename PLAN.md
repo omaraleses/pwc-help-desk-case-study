@@ -248,7 +248,7 @@ Passwords with `@` break connection strings unless percent-encoded, so the local
 
 ## Phase 7, Shell and guards
 
-- [ ] Navbar, centered role badge, logout (replace the placeholder header)
+- [x] Navbar, centered role badge, logout (replace the placeholder header)
 - [x] Role-aware layouts redirecting by session ((protected)/layout.tsx + per-page role guards)
 - [x] proxy.ts for cookie-presence redirects only
 - [x] shadcn components: table, dialog, select, dropdown-menu, 
@@ -270,21 +270,56 @@ Passwords with `@` break connection strings unless percent-encoded, so the local
 
 ## Phase 10, Dashboards
 
-- [ ] User: count cards, my tickets, raise ticket dialog returning ticket_no, detail + comment thread
-- [ ] Moderator: queue table, URL-state filters and page, quick actions (assign, status, priority)
-- [ ] Admin: /users with activate and role actions, /categories, /tickets reusing moderator table
+- [X] User: count cards, my tickets, raise ticket dialog returning ticket_no, detail + comment thread
+- [X] Moderator: queue table, URL-state filters and page, quick actions (assign, status, priority)
+- [X] Admin: /users with activate and role actions, /categories, /tickets reusing moderator table
 
 ## Phase 11, Polish
 
-- [ ] Loading skeletons, empty states (no matches vs no tickets), toasts on mutations, inline form errors
-- [ ] Tablet width pass
-- [ ] `bun run lint` + `bun run typecheck` clean
+- [x] Loading skeletons, empty states (no matches vs no tickets), toasts on mutations, inline form errors
+- [x] Tablet width pass (flex-wrap toolbars and footers, horizontal table scroll, responsive summary grid)
+- [x] `bun run lint` + `bun run typecheck` clean
 
-## Phase 12, Submission
+## Phase 12, Implement Code reviewer
+- [ ] DeepSeek API key in github secrets
+- [ ] create the workflow file: .github/workflows/code-review.yml:
+  ```yml
+  name: AI Code Review
 
-- [ ] README: docker command, env vars, db:push, db:seed, run instructions, four credentials, permission matrix, state management rationale, API overview
-- [ ] Fresh clone test: compose up, install, push, seed, login as each role
-- [ ] Walk the grading criteria one by one
+  on:
+    pull_request:
+      types: [opened, synchronize, reopened]
+
+  permissions:
+    contents: read
+    pull-requests: write
+
+  jobs:
+    review:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Run OpenCodeReview
+          uses: alibaba/open-code-review@main
+          with:
+            llm_url: https://api.deepseek.com
+            llm_model: deepseek-chat
+            llm_auth_token: ${{ secrets.DEEPSEEK_API_KEY }}
+            llm_use_anthropic: 'false'
+            language: English
+            sticky_summary: 'true'
+            incremental: 'true'
+            route_severity_below: low
+  ```
+  - [ ] commit and push on its own
+
+## Phase 13, Submission
+
+- [x] README:
+  - [x] what the project is
+  - [x] how to install the project
+  - [x] how to configure and run the project: configure env values -> db setup -> creds added -> api overview list -> note that patch is not added and replaced due to personal reference.
+  - [ ] why test is added? (skipped with Phase 12, revisit with the original case study app)
+  - [x] Fresh clone test: compose up, install, push, seed, login as each role
 
 ## Out of scope (FLEX)
 

@@ -220,6 +220,9 @@ export function useUpdateTicket() {
       applyOptimisticUpdate(queryClient, variables)
       return { previousLists, previousDetail }
     },
+    onSuccess: () => {
+      toast.success("Ticket updated")
+    },
     onError: (error, variables, context) => {
       toast.error(error.message)
       if (context) {

@@ -62,16 +62,21 @@ function DropdownMenuLabel({
 }: MenuPrimitive.GroupLabel.Props & {
   inset?: boolean
 }) {
+  // Base UI's GroupLabel requires a MenuGroupContext, otherwise it throws at
+  // runtime. Wrap it in its own Group so the label is safe to use directly
+  // inside DropdownMenuContent.
   return (
-    <MenuPrimitive.GroupLabel
-      data-slot="dropdown-menu-label"
-      data-inset={inset}
-      className={cn(
-        "px-2 py-2 text-xs text-muted-foreground data-inset:ps-7",
-        className
-      )}
-      {...props}
-    />
+    <MenuPrimitive.Group data-slot="dropdown-menu-group">
+      <MenuPrimitive.GroupLabel
+        data-slot="dropdown-menu-label"
+        data-inset={inset}
+        className={cn(
+          "px-2 py-2 text-xs text-muted-foreground data-inset:ps-7",
+          className
+        )}
+        {...props}
+      />
+    </MenuPrimitive.Group>
   )
 }
 

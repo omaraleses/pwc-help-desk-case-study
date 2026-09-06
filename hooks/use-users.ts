@@ -10,7 +10,7 @@ import { toast } from "sonner"
 
 import { apiFetch } from "@/lib/api"
 import type { UserRole } from "@/lib/db/enums"
-import type { Paginated } from "@/lib/types"
+import { type Paginated, ROLE_LABELS } from "@/lib/types"
 import type { UserPatchInput } from "@/lib/validations/user"
 
 export type UserRow = {
@@ -86,6 +86,14 @@ export function useUpdateUser() {
             : old
       )
       return { previousLists }
+    },
+    onSuccess: (_updated, variables) => {
+      const { patch } = variables
+      if (patch.role !== undefined) {
+        toast.success(`Role set to ${ROLE_LABELS[patch.role]}`)
+      } else if (patch.isActive !== undefined) {
+        toast.success(patch.isActive ? "Account activated" : "Account deactivated")
+      }
     },
     onError: (error, _variables, context) => {
       toast.error(error.message)
